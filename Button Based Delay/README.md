@@ -1,12 +1,7 @@
 # Button Based Delay
-Now that you have begun to familiarize yourself with the TIMER modules, why don't we make an interesting change to our code from the last lab.
-
-## Task
-Setup your microcontroller to initially blink and LED at a rate of 10Hz upon restarting or powering up. Then utilizing one of the buttons on board, a user should be able to set the delay or blinking rate of the LED by holding down a button. The duration in which the button is depressed should then become the new rate at which the LED blinks. As previously stated, you most likely will want to take advantage of the fact that TIMER modules exist and see if you can let them do a bulk of the work for you.
-
-### Extra Work
-## Reset Button
-What is a piece of electronics without a reset button? Instead of relying on resetting your processor using the built in reset circuitry, why not instead use another button to reset the rate back to 10Hz.
-
-## Button Based Hertz
-Most likely using two buttons, what if instead of making a delay loop based on the time, the user could instead enter a mode where the number of times they pressed the button would become the number in Hz of the blinking rate? How do you think you would implement that with just one button?
+## Objective
+The objective here was to add additional functionality to the button interrupt using the TimerA peripheral. The goal was to making a program that starts out blinking, and the rate of the blink can be adjusted by how long a user holds down the button.
+## Summary
+The code from parts one and two of this lab were essentially integrated together to determine a way to allow user input through the MSP430 to determine the frequency at which the LED blinks. By using an if statement inside of the interrupt we are able to implement the user control. When the button is pressed we set the Timer to count up using "MC_2". We also set this to capture mode using "TA1CCTL0 = CAP;". An else if statement is used when the button is on the rising edge as well. We then set the TA0CCR0 equal to the value we obtained from TA1CCR0 in order to achieve the users input. In addition to this an additional function is used to calculate the number of cycles need to provide a 10Hz starting frequency.
+## Code Differences
+Pins all change of course, but the line of code "PM5CTL0 &= ~LOCKLPM5;"is required in order to disable the GPIO power-on default high-impedance mode for the 2311 and 6989. The 2311 has no TimerA so TimerB was used for that implementation.
